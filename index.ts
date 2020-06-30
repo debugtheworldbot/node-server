@@ -3,9 +3,12 @@ import {IncomingMessage, ServerResponse} from "http";
 
 const server = http.createServer();
 server.on('request', (request:IncomingMessage, response:ServerResponse) => {
-    console.log(request.method)
-    console.log(request.url)
-    console.log(request.headers)
-    response.end('ended')
+    const array=[]
+    request.on('data',(chunk)=>{
+        array.push(chunk)
+        const body=Buffer.concat(array).toString()
+        console.log(body)
+        response.end('ended')
+    })
 })
 server.listen('8888')
